@@ -1,14 +1,17 @@
-import { Component} from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Products } from '../../Modal/interface';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-crud',
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './crud.html',
   styleUrl: './crud.css',
 })
-export class CRUD {
+export class CRUD implements OnInit {
+
   form: FormGroup;
   items: Products[] = [];
   editMode = false;
@@ -19,12 +22,40 @@ export class CRUD {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', Validators.maxLength(200)],
-      precio: [null, [Validators.min(0)]]
+      precio: [null, [Validators.min(0)]],
+      imagen: [''],
+      categoria: [''],
+      cantidad: [null]
     });
   }
 
-  
+  // ======================================================
+  // CARGAR DATOS GUARDADOS
+  // ======================================================
+  ngOnInit(): void {
+    const saved = localStorage.getItem('productos');
+    const savedId = localStorage.getItem('nextId');
 
+    if (saved) {
+      this.items = JSON.parse(saved);
+    }
+
+    if (savedId) {
+      this.nextId = Number(savedId);
+    }
+  }
+
+  // ======================================================
+  // GUARDAR EN LOCALSTORAGE
+  // ======================================================
+  private saveToStorage() {
+    localStorage.setItem('productos', JSON.stringify(this.items));
+    localStorage.setItem('nextId', this.nextId.toString());
+  }
+
+  // ======================================================
+  // SUBMIT (crear o actualizar)
+  // ======================================================
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -32,8 +63,9 @@ export class CRUD {
     }
 
     const value = this.form.value;
+
     if (this.editMode && this.editingId != null) {
-      // Update
+      // UPDATE
       const idx = this.items.findIndex(i => i.id === this.editingId);
       if (idx !== -1) {
         this.items[idx] = {
@@ -42,46 +74,67 @@ export class CRUD {
           descripcion: value.descripcion,
           precio: value.precio != null ? +value.precio : 0,
           imagen: value.imagen,
-  categoria: value.categoria,
-  cantidad: value.cantidad
+          categoria: value.categoria,
+          cantidad: value.cantidad
         };
       }
       this.cancelEdit();
     } else {
-      // Create
+      // CREATE
       const newItem: Products = {
-  id: this.nextId++,
-  nombre: value.nombre,
-  descripcion: value.descripcion,
-  precio: value.precio,
-  imagen: value.imagen,
-  categoria: value.categoria,
-  cantidad: value.cantidad
-};
+        id: this.nextId++,
+        nombre: value.nombre,
+        descripcion: value.descripcion,
+        precio: value.precio,
+        imagen: value.imagen,
+        categoria: value.categoria,
+        cantidad: value.cantidad
+      };
+
       this.items.push(newItem);
       this.form.reset();
     }
+
+    this.saveToStorage(); // <── GUARDAR CAMBIOS
   }
 
+  // ======================================================
+  // EDITAR
+  // ======================================================
   edit(item: Products): void {
     this.editMode = true;
     this.editingId = item.id;
+
     this.form.patchValue({
       nombre: item.nombre,
       descripcion: item.descripcion ?? '',
-      precio: item.precio ?? null
+      precio: item.precio ?? null,
+      imagen: item.imagen ?? '',
+      categoria: item.categoria ?? '',
+      cantidad: item.cantidad ?? null
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // opcional: llevar al formulario
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ======================================================
+  // ELIMINAR
+  // ======================================================
   delete(item: Products): void {
-    const confirmed = confirm(`¿Eliminar "${item.nombre}"?`);
-    if (!confirmed) return;
+    if (!confirm(`¿Eliminar "${item.nombre}"?`)) return;
+
     this.items = this.items.filter(i => i.id !== item.id);
-    // si estaba editando ese item, cancelar
-    if (this.editingId === item.id) this.cancelEdit();
+
+    if (this.editingId === item.id) {
+      this.cancelEdit();
+    }
+
+    this.saveToStorage(); // <── GUARDAR CAMBIOS
   }
 
+  // ======================================================
+  // CANCELAR EDICIÓN
+  // ======================================================
   cancelEdit(): void {
     this.editMode = false;
     this.editingId = null;
@@ -92,5 +145,3 @@ export class CRUD {
     return item.id;
   }
 }
-
-

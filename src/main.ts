@@ -3,10 +3,10 @@ import { App } from './app/app';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import 'zone.js';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 bootstrapApplication(App, {
   providers: [
   provideRouter(routes),
-  provideHttpClient()
+  provideHttpClient(withFetch())
   ],
 });
