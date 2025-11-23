@@ -1,0 +1,123 @@
+/* 🐾 CONTENEDOR PRINCIPAL */
+.contact-container {
+  text-align: center;
+  margin-top: 40px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fdfaf4; /* crema claro */
+  padding: 50px 20px;
+  color: #4b2e14; /* marrón oscuro */
+}
+
+/* 🏷️ TÍTULO */
+h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #8b5e3c; /* marrón medio */
+}
+
+/* 📩 TARJETA DEL FORMULARIO */
+.form-card {
+  background-color: #fffdf8; /* crema cálido */
+  border: 1px solid #e6d7c3; /* borde beige suave */
+  border-radius: 14px;
+  width: 60%;
+  margin: 0 auto;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.15);
+  color: #4b2e14;
+  transition: all 0.3s ease;
+}
+
+.form-card:hover {
+  box-shadow: 0 6px 14px rgba(139, 94, 60, 0.25);
+}
+
+/* 🔸 FILAS Y COLUMNAS */
+.row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  min-width: 240px;
+}
+
+/* 🏷️ LABELS */
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #6f4e37; /* marrón café */
+}
+
+/* 🧾 INPUTS */
+input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6d7c3;
+  outline: none;
+  background-color: #fffaf3;
+  color: #4b2e14;
+  font-size: 1rem;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #c49a6c;
+  box-shadow: 0 0 6px rgba(196, 154, 108, 0.4);
+}
+
+/* 💬 ÁREA DE CONSULTA */
+.consulta-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+textarea {
+  width: 70%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e6d7c3;
+  resize: none;
+  outline: none;
+  background-color: #fffaf3;
+  color: #4b2e14;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #c49a6c;
+  box-shadow: 0 0 6px rgba(196, 154, 108, 0.4);
+}
+
+/* 🐾 BOTÓN DE ENVÍO */
+.btn-container {
+  margin-top: 35px;
+}
+
+button {
+  background: linear-gradient(180deg, #c59a6d 0%, #b58458 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-weight: 600;
+  color: #fffaf0;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(139, 94, 60, 0.2);
+}
+
+button:hover {
+  background: linear-gradient(180deg, #b58458 0%, #9b6d41 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(139, 94, 60, 0.3);
+}

@@ -1,0 +1,227 @@
+/* Contenedor general */
+.productos-container {
+  background-color: #f6ecdc;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Títulos */
+.titulo-seccion {
+  color: #5b3821;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* --- TARJETAS --- */
+.producto-card {
+  width: 18rem;                   /* tamaño uniforme */
+  min-height: 420px;              /* altura fija para todas */
+  border: none;
+  border-radius: 15px;
+  background-color: #fffaf3;
+  box-shadow: 0 4px 10px rgba(139, 69, 19, 0.15);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(107, 66, 38, 0.25);
+}
+
+/* --- CONTENEDOR IMAGEN UNIFORME --- */
+.imagen-container {
+  width: 100%;
+  height: 220px;                  /* altura igual para todas */
+  background-color: #f8f3ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.imagen-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;            /* evita deformaciones */
+  padding: 10px;                  /* da aire a logos y envases pequeños */
+  transition: transform 0.25s ease;
+}
+
+.imagen-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Ícono de favoritos */
+.favorito-icono {
+  color: #d67c45;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.favorito-icono:hover {
+  color: #a0522d;
+}
+
+/* --- TEXTO TARJETA --- */
+.card-body {
+  flex: 1;                        /* contenido crece uniformemente */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  min-height: 48px;               /* evita que títulos largos muevan todo */
+  color: #5b3821;
+  font-weight: 600;
+}
+
+.card-text {
+  min-height: 40px;               /* descripción uniforme */
+  color: #5b3821;
+}
+
+.precio {
+  color: #5b3821;
+  font-size: 1.2rem;
+}
+
+/* Precio oferta */
+.precio-oferta {
+  color: #27ae60;
+}
+
+/* Badge oferta */
+.badge-oferta {
+  background-color: #b52e2e;
+  color: white;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Botón comprar */
+.btn-comprar {
+  background-color: #d6a354;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-comprar:hover {
+  background-color: #b27c2b;
+  transform: scale(1.05);
+}
+
+/* Carousel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(40%) sepia(30%) saturate(400%) hue-rotate(10deg) brightness(90%);
+}
+/* Badge de categoría (color claro, estilo petshop) */
+.badge-categoria,
+.badge.bg-secondary {
+  background-color: #e8cfae !important; /* marrón claro suave */
+  color: #5b3821 !important;            /* marrón oscuro del tema */
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  border: 1px solid #d6b28e;           /* borde para dar detalle */
+}
+.filtros {
+  background: #F7EEDB;
+  border: 1px solid #E2D3C1;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(107, 79, 50, 0.12);
+}
+
+/* 🔸 Título de filtros */
+.titulo-filtro {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #6B4F32;
+}
+
+/* 🔸 Inputs y selects */
+.filtros .form-control,
+.filtros .form-select {
+  background: #FFFDF8;
+  border: 1px solid #D8C7B4;
+  border-radius: 12px;
+  color: #6B4F32;
+  padding: 10px;
+}
+
+.filtros .form-control:focus,
+.filtros .form-select:focus {
+  border-color: #A0794B;
+  box-shadow: 0 0 0 0.2rem rgba(160, 121, 75, 0.25);
+}
+
+/* Placeholder color */
+.filtros .form-control::placeholder {
+  color: #A0794B;
+  opacity: 0.7;
+}
+#ofertasCarousel .carousel-item {
+  padding: 20px 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(30%) sepia(40%) saturate(600%) hue-rotate(340deg);
+}
+
+.producto-card {
+  width: 260px;
+  border-radius: 12px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.imagen-container img {
+  height: 160px;
+  object-fit: cover;
+}
+
+.badge-oferta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #dc3545;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.favorito-icono {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #d9534f;
+  font-size: 1.4rem;
+  cursor: pointer;
+}

@@ -1,0 +1,122 @@
+<section class="cart-section">
+  <div class="container">
+
+    <!-- 🐾 Título principal -->
+    <h1 class="cart-title">Carrito de Compras</h1>
+
+    <!-- 🧺 Mensaje cuando el carrito está vacío -->
+    <div *ngIf="productosEncarrito.length === 0" class="empty-cart">
+      <p>No hay productos en el carrito</p>
+    </div>
+
+    <!-- 🐕 Lista de productos en el carrito -->
+    <div *ngIf="productosEncarrito.length > 0" class="cart-table-wrapper">
+
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of productosEncarrito; let i = index">
+            
+            <!-- Imagen -->
+            <td class="product-image">
+              <img
+                [src]="item.producto.imagen"
+                alt="{{ item.producto.nombre }}"
+              />
+            </td>
+
+            <!-- Nombre y descripción -->
+            <td class="product-name">{{ item.producto.nombre }}</td>
+            <td class="product-description">
+              {{ item.producto.descripcion }}
+            </td>
+
+            <!-- Precio -->
+            <td class="product-price">
+              {{ item.producto.precio | currency:'$':'symbol':'1.0-0' }}
+            </td>
+<br>
+            <!-- Cantidad -->
+            <td class="product-quantity">
+
+              <button
+                (click)="quitarCantidad(i)"
+                aria-label="Disminuir cantidad"
+                class="qty-btn"
+              >−</button>
+
+              <span class="qty-number">{{ item.cantidad }}</span>
+
+              <button
+                (click)="agregarCantidad(i)"
+                aria-label="Aumentar cantidad"
+                class="qty-btn"
+              >+</button>
+
+              
+
+            <!-- Subtotal -->
+            <td class="product-subtotal">
+              {{ (item.producto.precio * item.cantidad) | currency:'$':'symbol':'1.0-0' }}
+            </td>
+
+            <!-- Acciones -->
+            <td class="product-actions">
+              <button
+                (click)="eliminarProducto(item.producto.id)"
+                aria-label="Quitar del carrito"
+                class="btn-remove-text"
+              >
+                <i class="fa-solid fa-trash me-2"></i>
+                Quitar
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 💳 Total, envío, subtotal -->
+      <div class="cart-footer text-end mt-4">
+
+        <p class="fw-bold fs-5">
+          Subtotal:
+          <span>{{ calcularTotal() | currency:'$':'symbol':'1.0-0' }}</span>
+        </p>
+<br>
+        <p class="fw-bold fs-5">
+          Envío:
+          <span>{{ envio | currency:'$':'symbol':'1.0-0' }}</span>
+        </p>
+<br>
+        <p class="fw-bold fs-4">
+          Total:
+          <span>{{ (calcularTotal() + envio) | currency:'$':'symbol':'1.0-0' }}</span>
+        </p>
+
+       
+
+        <button
+          class="btn btn-primary btn-purchase"
+          (click)="irAformularioCompra()"
+        >
+          <i class="bi bi-cart-check"></i>
+          Realizar compra
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</section>

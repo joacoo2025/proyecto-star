@@ -1,0 +1,129 @@
+/* 🌿 Navbar principal */
+.pet-navbar {
+  background: linear-gradient(135deg, #f7ede2, #f3d9b1);
+  color: #4e342e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pet-navbar .brand-text {
+  color: #6d4c41;
+}
+
+.nav-link-custom {
+  color: #5d4037 !important;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link-custom:hover {
+  color: #8d6e63 !important;
+  transform: scale(1.05);
+}
+
+/* 🔍 Buscador */
+.input-busqueda {
+  background-color: #fffaf4;
+  border-radius: 8px;
+  border: 1px solid #d7ccc8;
+  padding: 6px 10px;
+  color: #4e342e;
+}
+
+.input-busqueda::placeholder {
+  color: #8d6e63;
+}
+
+.btn-buscar {
+  background-color: #a1887f;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-buscar:hover {
+  background-color: #8d6e63;
+}
+
+/* ❤️🛒 Íconos */
+.icono-nav {
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+  transition: transform 0.2s ease;
+}
+
+.icono-nav:hover {
+  transform: scale(1.1);
+}
+
+/* 🌾 Navbar inferior */
+.pet-navbar-bottom {
+  background: linear-gradient(135deg, #f3e5ab, #fbeed1);
+}
+
+.pet-navbar-bottom .nav-link-custom:hover {
+  color: #a1887f !important;
+}
+
+.input-busqueda {
+  background-color: #f8f9fa; /* color suave */
+  border-radius: 30px;
+  padding-left: 15px;
+  height: 40px;
+}
+
+.input-busqueda:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.bi-search {
+  cursor: pointer;
+}
+.nav-fav {
+  background: transparent; /* sin fondo */
+  border: none;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.icono-nav {
+  filter: brightness(0) saturate(90%) invert(60%) sepia(20%) saturate(200%) hue-rotate(25deg) brightness(95%) contrast(92%);
+  transition: filter 0.15s ease;
+}
+
+.nav-fav:hover .icono-nav {
+  filter: brightness(0) saturate(90%) invert(50%) sepia(30%) saturate(200%) hue-rotate(25deg) brightness(90%) contrast(95%);
+}
+/* Enlaces de iconos del navbar */
+.nav-icon-link {
+  background: transparent !important;
+  padding: 0;
+  margin: 0 6px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Iconos del navbar */
+.icono-nav {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  filter: brightness(0.85) saturate(0.9); /* tono crema-marrón suave */
+  transition: 0.2s ease;
+}
+
+/* El carrito era gigante, lo normalizamos */
+.icono-carrito {
+  height: 63px;
+  width: 63px;
+}
+
+/* Hover suave y elegante */
+.nav-icon-link:hover .icono-nav {
+  transform: scale(1.05);
+  filter: brightness(1);
+}

@@ -1,0 +1,120 @@
+<!-- ============================
+     CARRUSEL PRINCIPAL
+============================ -->
+<div id="carouselExample" class="carousel slide home-carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="perro4k.jpg" class="d-block w-100" alt="Perro">
+      <div class="overlay"></div>
+    </div>
+    <div class="carousel-item">
+      <img src="perromar.jpg" class="d-block w-100" alt="Perrito">
+      <div class="overlay"></div>
+    </div>
+    <div class="carousel-item">
+      <img src="perrohojas.jpg" class="d-block w-100" alt="Perro comiendo">
+      <div class="overlay"></div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+<!-- ============================
+     CONTENIDO
+============================ -->
+<div class="container py-5">
+
+  <!-- OFERTAS -->
+  <h2 class="section-title">Ofertas</h2>
+
+  <div id="ofertasCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <div *ngFor="let grupo of getSlides(ofertas); let i = index"
+           class="carousel-item"
+           [ngClass]="{ active: i === 0 }">
+
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+
+          <div *ngFor="let producto of grupo" class="card product-card shadow-sm">
+            <div class="img-wrap">
+              <img [src]="producto.imagen" class="card-img-top" [alt]="producto.nombre">
+              <i class="bi bi-heart-fill fav-icon" (click)="agregarAfav(producto)"></i>
+            </div>
+
+            <div class="card-body text-center">
+              <h5>{{ producto.nombre }}</h5>
+              <p class="desc">{{ producto.descripcion }}</p>
+              <p class="price">$ {{ producto.precio | number }}</p>
+              <button class="btn btn-buy" (click)="agregar(producto)">Agregar al Carrito</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+
+
+  <!-- DESTACADOS -->
+  <h2 class="section-title">Destacados</h2>
+
+  <div id="destacadosCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <div *ngFor="let grupo of getSlides(destacados); let i = index"
+           class="carousel-item"
+           [ngClass]="{ active: i === 0 }">
+
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+
+          <div *ngFor="let producto of grupo" class="card product-card shadow-sm">
+            <div class="img-wrap">
+              <img [src]="producto.imagen" class="card-img-top" [alt]="producto.nombre">
+              <i class="bi bi-heart-fill fav-icon" (click)="agregarAfav(producto)"></i>
+            </div>
+
+            <div class="card-body text-center">
+              <h5>{{ producto.nombre }}</h5>
+              <p class="desc">{{ producto.descripcion }}</p>
+              <p class="price">$ {{ producto.precio | number }}</p>
+              <button class="btn btn-buy" (click)="agregar(producto)">Agregar al Carrito</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#destacadosCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#destacadosCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+</div>
+
+
+

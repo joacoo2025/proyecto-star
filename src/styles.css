@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.swal2-popup.petshop-popup {
+  border-radius: 20px !important;
+  background: #f7efe5 !important; /* crema claro */
+  border: 3px solid #c8a487 !important; /* marrón suave */
+  padding: 20px !important;
+}
+
+.swal2-title {
+  font-family: 'Poppins', sans-serif;
+  color: #5a3d2b !important; /* marrón oscuro */
+  font-size: 26px !important;
+}
+
+.swal2-html-container {
+  color: #6b4a34 !important;
+  font-size: 18px !important;
+}
+
+.swal2-confirm {
+  background: #c8a487 !important;
+  color: white !important;
+  border-radius: 15px !important;
+  font-size: 16px !important;
+  padding: 10px 25px !important;
+}
+
+.swal2-icon.swal2-success {
+  border-color: #c8a487 !important;
+  color: #c8a487 !important;
+}

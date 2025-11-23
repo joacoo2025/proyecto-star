@@ -1,0 +1,19 @@
+/* Para ocupar el alto completo */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Layout principal: columna */
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* El contenido de las rutas ocupa el espacio disponible */
+  .content {
+    flex: 1; /* ✅ hace que empuje el footer hacia abajo */
+    padding: 20px;
+  }
+  

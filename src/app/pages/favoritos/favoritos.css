@@ -1,0 +1,158 @@
+/* 🐾 SECCIÓN DE FAVORITOS */
+.favoritos-section {
+  background-color: #fdfaf4; /* crema claro */
+  color: #4b2e14; /* marrón oscuro */
+  padding: 60px 20px;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🏷️ TÍTULO */
+.favoritos-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #8b5e3c; /* marrón medio */
+  font-weight: 700;
+}
+
+/* 🐶 MENSAJE SIN PRODUCTOS */
+.sin-productos {
+  text-align: center;
+  color: #bfa17a;
+  font-size: 1.2rem;
+}
+
+/* 📦 CONTENEDOR DE TARJETAS */
+.favoritos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* 🐾 TARJETAS DE PRODUCTO */
+.favorito-card {
+  background-color: #fffdf8; /* crema cálido */
+  border: 1px solid #e6d7c3; /* borde beige suave */
+  border-radius: 14px;
+  padding: 20px;
+  width: 260px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(139, 94, 60, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.favorito-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(139, 94, 60, 0.25);
+}
+
+/* 🐕 IMAGEN */
+.favorito-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #e6d7c3;
+}
+
+/* 💰 PRECIO */
+.precio {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: #8b5e3c; /* marrón medio */
+  font-weight: 600;
+}
+
+/* 🔘 CONTENEDOR DE BOTONES */
+.botones-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* 🐕 BOTÓN AÑADIR AL CARRITO */
+.btn-agregar {
+  background: linear-gradient(180deg, #c59a6d 0%, #b58458 100%); /* marrón cálido */
+  color: #fffaf0; /* crema suave */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(139, 94, 60, 0.2);
+}
+
+.btn-agregar:hover {
+  background: linear-gradient(180deg, #b58458 0%, #9b6d41 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.3);
+}
+
+/* ❌ BOTÓN ELIMINAR */
+.btn-eliminar {
+  background-color: #c49a6c; /* marrón claro */
+  color: #fffdf8;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(139, 94, 60, 0.2);
+}
+
+.btn-eliminar:hover {
+  background-color: #a3764f; /* marrón más oscuro */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.3);
+}
+
+/* ✅ TOAST DE ÉXITO */
+.toast-success {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #c49a6c; /* marrón claro */
+  color: #fffaf3;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+.toast-success i {
+  font-size: 1.2rem;
+  color: #fffaf3;
+}
+
+/* ✨ ANIMACIÓN */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}

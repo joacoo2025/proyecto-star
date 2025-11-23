@@ -1,0 +1,182 @@
+
+<div class="productos-container container py-5">
+
+  <!-- 🔸 FILTROS -->
+  <div class="filtros card p-4 shadow-sm mb-5">
+    <h4 class="text-center mb-3 titulo-filtro">Filtrar productos</h4>
+
+    <div class="row g-3">
+
+      <!-- Buscar por nombre -->
+      <div class="col-md-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="filtros.nombre"
+          (input)="aplicarFiltros()"
+        >
+      </div>
+
+      <!-- Categoría -->
+      <div class="col-md-4">
+        <select
+          class="form-select"
+          [(ngModel)]="filtros.categoria"
+          (change)="aplicarFiltros()"
+        >
+          <option value="">Todas las categorías</option>
+          <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <!-- Precio -->
+      <div class="col-md-4">
+  <select
+    class="form-select"
+    [(ngModel)]="filtros.precio"
+    (change)="aplicarFiltros()"
+  >
+    <option value="">Todos los precios</option>
+
+    <!-- Rangos -->
+    <option value="1">Menos de $1.000</option>
+    <option value="2">Entre $1.000 y $5.000</option>
+    <option value="3">Más de $5.000</option>
+
+    <!-- Ordenamiento -->
+    <option value="asc">Precio: menor a mayor</option>
+    <option value="desc">Precio: mayor a menor</option>
+  </select>
+</div>
+
+
+    </div>
+  </div>
+
+
+
+  <!-- 🔸 SECCIÓN 1: Productos Destacados -->
+  <h2 class="titulo-seccion text-center mb-4">🐾 Productos Destacados</h2>
+
+  <div id="productosCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div
+        *ngFor="let grupo of getSlides(); let i = index"
+        class="carousel-item"
+        [ngClass]="{ active: i === 0 }"
+      >
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+          <div *ngFor="let producto of grupo" class="producto-card card">
+            <div class="imagen-container position-relative">
+              <img [src]="producto.imagen" [alt]="producto.nombre" class="card-img-top">
+              <i class="bi bi-heart-fill favorito-icono" (click)="agregarAfav(producto)"></i>
+            </div>
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">{{ producto.descripcion }}</p>
+              <p class="precio fw-bold">$ {{ producto.precio | number }}</p>
+              <button class="btn btn-comprar" (click)="agregar(producto)">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#productosCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#productosCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+
+
+<!-- 🔸 SECCIÓN 2: Ofertas -->
+<h2 class="titulo-seccion text-center mt-5 mb-4 text-danger">🔥 Ofertas</h2>
+
+<div id="ofertasCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    <!-- SLIDES -->
+    <div class="carousel-item"
+         *ngFor="let grupo of getSlidesOfertas(); let i = index"
+         [class.active]="i === 0">
+
+      <div class="d-flex justify-content-center gap-4 flex-wrap">
+
+        <!-- PRODUCTO -->
+        <div class="producto-card card border-danger"
+             *ngFor="let producto of grupo">
+
+          <div class="imagen-container position-relative">
+            <img [src]="producto.imagen" class="card-img-top" alt="{{ producto.nombre }}">
+            <span class="badge-oferta">OFERTA</span>
+            <i class="bi bi-heart-fill favorito-icono" (click)="agregarAfav(producto)"></i>
+          </div>
+
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ producto.nombre }}</h5>
+            <p class="card-text">{{ producto.descripcion }}</p>
+
+            <p class="precio-oferta fw-bold fs-5">
+              <span class="text-muted text-decoration-line-through me-2">$ {{ producto.precioAnterior }}</span>
+              $ {{ producto.precio | number }}
+            </p>
+
+            <span class="badge bg-secondary mb-2">{{ producto.categoria }}</span><br>
+            <button class="btn btn-comprar" (click)="agregar(producto)">Agregar al carrito</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTROLES -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#ofertasCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+
+
+  <!-- 🔸 SECCIÓN 3: Todos los Productos con Filtro -->
+  <h2 class="titulo-seccion text-center mt-5 mb-4">🐶 Todos los Productos</h2>
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center"
+         *ngFor="let producto of productosFiltrados">
+      <div class="producto-card card">
+        <div class="imagen-container position-relative">
+          <img [src]="producto.imagen" class="card-img-top" alt="{{ producto.nombre }}">
+          <i class="bi bi-heart-fill favorito-icono" (click)="agregarAfav(producto)"></i>
+        </div>
+
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text">{{ producto.descripcion }}</p>
+          <p class="precio fw-bold">$ {{ producto.precio | number }}</p>
+          <span class="badge bg-secondary mb-2">{{ producto.categoria }}</span><br>
+          <button class="btn btn-comprar" (click)="agregar(producto)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+

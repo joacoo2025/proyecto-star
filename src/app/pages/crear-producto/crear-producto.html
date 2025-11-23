@@ -1,0 +1,15 @@
+<h2>Crear Producto</h2>
+
+<form (ngSubmit)="crear()">
+  <input class="form-control mb-2" placeholder="Nombre" [(ngModel)]="form.nombre" name="nombre">
+
+  <input class="form-control mb-2" placeholder="Categoría" [(ngModel)]="form.categoria" name="categoria">
+
+  <input class="form-control mb-2" placeholder="Precio" [(ngModel)]="form.precio" name="precio" type="number">
+
+  <textarea class="form-control mb-2" placeholder="Descripción" [(ngModel)]="form.descripcion" name="descripcion"></textarea>
+
+  <input type="file" (change)="seleccionarImagen($event)" class="form-control mb-2">
+
+  <button class="btn btn-success">Crear</button>
+</form>

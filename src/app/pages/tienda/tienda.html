@@ -1,0 +1,28 @@
+<div class="container mt-4 petshop-bg">
+  <h2 class="petshop-title">Tienda</h2>
+
+  <div class="row">
+    <div class="col-md-3" *ngFor="let producto of productos">
+      <div class="card petshop-card mb-3">
+
+        <!-- Ícono de favoritos -->
+<button class="fav-btn" (click)="agregarAfav(producto)">
+  <span class="heart">❤</span>
+</button>
+
+        <img [src]="'http://localhost/tu_api/uploads/'+producto.imagen" class="card-img-top petshop-img">
+
+        <div class="card-body">
+          <h5 class="card-title petshop-card-title">{{ producto.nombre }}</h5>
+          <p class="petshop-description">{{ producto.descripcion }}</p>
+          <p class="petshop-price"><b>${{ producto.precio }}</b></p>
+
+          <!-- Botón agregar al carrito -->
+          <button class="btn-cart" (click)="agregar(producto)">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+/* ==============================
+    GENERAL
+============================== */
+:host {
+  display: block;
+  background-color: #f7efe5; /* crema suave */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ==============================
+    TITULO DE SECCIONES
+============================== */
+.section-title {
+  color: #5a3e2b; /* marrón */
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 90px;
+  height: 4px;
+  background-color: #c39a6b; /* marrón claro elegante */
+  margin: 10px auto 0;
+  border-radius: 8px;
+}
+
+/* ==============================
+    CARRUSEL PRINCIPAL
+============================== */
+.home-carousel img {
+  height: 450px;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+.home-carousel .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(50, 30, 10, 0.25); /* marrón transparente */
+}
+
+/* Botones del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #c39a6b;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  background-size: 55%;
+}
+
+/* ==============================
+    TARJETAS DE PRODUCTO
+============================== */
+.product-card {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 1rem;
+  background-color: #fff8f0; /* crema elegante */
+  border: 1px solid #e6d7c3;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(150, 110, 70, 0.25);
+}
+
+/* Imagen */
+.img-wrap {
+  position: relative;
+}
+
+.card-img-top {
+  height: 170px;
+  object-fit: cover;
+  border-bottom: 3px solid #c39a6b;
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* Ícono corazón */
+.fav-icon {
+  color: #b34a3c;
+  font-size: 1.6rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.fav-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Contenido */
+.card-body h5 {
+  color: #4a3a2b;
+  font-weight: 600;
+}
+
+.desc {
+  color: #6f5a4b;
+  font-size: 0.9rem;
+}
+
+.price {
+  color: #8b5e34;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Botón comprar */
+.btn-buy {
+  border: 2px solid #c39a6b;
+  color: #8b5e34;
+  font-weight: 600;
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-buy:hover {
+  background-color: #c39a6b;
+  color: #fff;
+}
+
+/* ==============================
+    RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+  .home-carousel img {
+    height: 280px;
+  }
+
+  .product-card {
+    max-width: 90%;
+  }
+}

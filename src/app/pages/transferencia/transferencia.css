@@ -1,0 +1,26 @@
+.transferencia-container {
+  background-color: #f7f1e1;
+  color: #4b3621;
+  font-family: 'Poppins', sans-serif;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  margin: 40px auto;
+}
+
+.qr-container {
+  margin: 20px 0;
+}
+
+.qr-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid #4b3621;
+}
+
+.mensaje {
+  margin-top: 15px;
+  font-style: italic;
+}

@@ -1,0 +1,19 @@
+<h2>Editar Producto</h2>
+
+<form (ngSubmit)="guardar()">
+
+  <input class="form-control mb-2" [(ngModel)]="form.nombre" name="nombre">
+
+  <input class="form-control mb-2" [(ngModel)]="form.categoria" name="categoria">
+
+  <input class="form-control mb-2" [(ngModel)]="form.precio" name="precio" type="number">
+
+  <textarea class="form-control mb-2" [(ngModel)]="form.descripcion" name="descripcion"></textarea>
+
+  <p>Imagen Actual:</p>
+  <img *ngIf="form.imagen" [src]="'http://localhost/api_proyecto/public/img/' + form.imagen" width="100">
+
+  <input type="file" (change)="seleccionarImagen($event)" class="form-control mb-2">
+
+  <button class="btn btn-warning">Guardar Cambios</button>
+</form>

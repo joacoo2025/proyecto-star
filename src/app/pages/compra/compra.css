@@ -1,0 +1,204 @@
+/* 🐾 Fondo general en tonos crema suaves */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #fffaf4 0%, #f7ecde 100%);
+  color: #4b2e14;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4rem;
+}
+
+/* 🧾 Estilo del formulario */
+form {
+  background-color: #fffdf8;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(139, 94, 60, 0.15);
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid #e6d7c3;
+}
+
+/* 🏷️ Título */
+h2.text-center {
+  color: #8b5e3c;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* ✏️ Etiquetas */
+.form-label {
+  color: #6d4c33;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+/* 📋 Inputs */
+.form-control {
+  background-color: #fffaf4;
+  border: 1px solid #d6bfa4;
+  color: #4b2e14;
+  padding: 0.6rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-control::placeholder {
+  color: #bfa17a;
+}
+
+.form-control:focus {
+  border-color: #c49a6c;
+  box-shadow: 0 0 6px rgba(196, 154, 108, 0.5);
+  background-color: #fffef9;
+  color: #4b2e14;
+}
+
+/* 🧩 Iconos del input group */
+.input-group-text {
+  background-color: #f3e2cf;
+  color: #4b2e14;
+  border: 1px solid #d6bfa4;
+  border-radius: 8px 0 0 8px;
+}
+
+/* ⚠️ Textos de error */
+.form-text {
+  color: #b35b39;
+  font-size: 0.875rem;
+}
+
+/* 🐶 Botón personalizado */
+button.btn-dark-custom {
+  background-color: #c49a6c;
+  border: none;
+  color: #fffdf8;
+  padding: 0.75rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 1.5rem auto 0;
+}
+
+button.btn-dark-custom:hover {
+  background-color: #a3764f;
+  transform: scale(1.05);
+}
+
+/* 📱 Responsivo */
+@media (max-width: 576px) {
+  form {
+    padding: 1rem;
+  }
+}
+
+/* 💳 Contenedor de métodos de pago */
+.payment-container {
+  background-color: #fffaf4;
+  color: #4b2e14;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: 0 4px 15px rgba(139, 94, 60, 0.15);
+  border: 1px solid #e6d7c3;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.payment-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #8b5e3c;
+  font-weight: 700;
+}
+
+/* 💰 Grid de métodos */
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+/* 💳 Tarjeta de método */
+.method-card {
+  background-color: #fffef9;
+  border: 1px solid #e6d7c3;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.method-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.2);
+}
+
+/* 🐾 Imagen de método */
+.method-card img {
+  max-width: 60px;
+  margin-bottom: 0.5rem;
+}
+
+/* ➕ Botón “Agregar método” */
+.add-method {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.add-method button {
+  background-color: #c49a6c;
+  color: #fffdf8;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.add-method button:hover {
+  background-color: #a3764f;
+  transform: scale(1.05);
+}
+/* 🛍️ Botón Finalizar Compra */
+.btn.btn-primary {
+  background-color: #c49a6c; /* marrón claro */
+  border: none;
+  color: #fffdf8;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.2);
+}
+
+.btn.btn-primary:hover {
+  background-color: #a3764f; /* marrón más oscuro */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(139, 94, 60, 0.3);
+}
+
+.btn.btn-primary:active {
+  background-color: #8b5e3c; /* marrón profundo */
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(139, 94, 60, 0.3);
+}
+
+.btn.btn-primary:disabled {
+  background-color: #e6d7c3;
+  color: #bfa17a;
+  cursor: not-allowed;
+  box-shadow: none;
+}
