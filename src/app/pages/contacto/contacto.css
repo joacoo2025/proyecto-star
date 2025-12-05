@@ -1,123 +1,112 @@
-/* 🐾 CONTENEDOR PRINCIPAL */
-.contact-container {
-  text-align: center;
-  margin-top: 40px;
+/* ========== Fondo y centrado ========== */
+body {
+  background: #f7efe5; /* crema suave */
   font-family: 'Poppins', sans-serif;
-  background-color: #fdfaf4; /* crema claro */
-  padding: 50px 20px;
-  color: #4b2e14; /* marrón oscuro */
+  margin: 0;
+  padding: 0;
 }
 
-/* 🏷️ TÍTULO */
-h2 {
-  font-weight: 700;
-  font-size: 2rem;
+.contacto-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ========== Tarjeta del formulario ========== */
+.contacto-card {
+  background: #fff8f0;
+  padding: 40px 55px;
+  width: 90%;
+  max-width: 650px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.15);
+  border-left: 10px solid #c79b63;
+  animation: fadeIn 0.6s ease;
+}
+
+/* ========== Titulos ========== */
+.contacto-card h2 {
+  margin: 0;
+  color: #6a4d33;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.subtitulo {
+  color: #8b6a4a;
+  margin-top: 8px;
   margin-bottom: 25px;
-  color: #8b5e3c; /* marrón medio */
+  font-size: 16px;
 }
 
-/* 📩 TARJETA DEL FORMULARIO */
-.form-card {
-  background-color: #fffdf8; /* crema cálido */
-  border: 1px solid #e6d7c3; /* borde beige suave */
-  border-radius: 14px;
-  width: 60%;
-  margin: 0 auto;
-  padding: 30px;
-  box-shadow: 0 4px 10px rgba(139, 94, 60, 0.15);
-  color: #4b2e14;
-  transition: all 0.3s ease;
-}
-
-.form-card:hover {
-  box-shadow: 0 6px 14px rgba(139, 94, 60, 0.25);
-}
-
-/* 🔸 FILAS Y COLUMNAS */
-.row {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+/* ========== Grupos del formulario ========== */
+.grupo {
   margin-bottom: 20px;
-  gap: 20px;
 }
 
-.col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  min-width: 240px;
-}
-
-/* 🏷️ LABELS */
 label {
-  margin-bottom: 6px;
+  display: block;
+  color: #6a4d33;
   font-weight: 600;
-  color: #6f4e37; /* marrón café */
+  margin-bottom: 6px;
 }
 
-/* 🧾 INPUTS */
-input {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #e6d7c3;
+/* ========== Inputs y textarea ========== */
+input,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e0d2c2;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fff;
+  transition: all 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #c79b63;
+  box-shadow: 0 0 8px rgba(199, 155, 99, 0.4);
   outline: none;
-  background-color: #fffaf3;
-  color: #4b2e14;
-  font-size: 1rem;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-input:focus {
-  border-color: #c49a6c;
-  box-shadow: 0 0 6px rgba(196, 154, 108, 0.4);
-}
-
-/* 💬 ÁREA DE CONSULTA */
-.consulta-section {
-  margin-top: 30px;
-  text-align: center;
 }
 
 textarea {
-  width: 70%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #e6d7c3;
+  height: 150px;
   resize: none;
-  outline: none;
-  background-color: #fffaf3;
-  color: #4b2e14;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-textarea:focus {
-  border-color: #c49a6c;
-  box-shadow: 0 0 6px rgba(196, 154, 108, 0.4);
-}
-
-/* 🐾 BOTÓN DE ENVÍO */
-.btn-container {
-  margin-top: 35px;
-}
-
+/* ========== Botón ========== */
 button {
-  background: linear-gradient(180deg, #c59a6d 0%, #b58458 100%);
+  width: 100%;
+  padding: 14px;
+  background: #c79b63;
+  color: #fff;
   border: none;
-  border-radius: 10px;
-  padding: 12px 28px;
-  font-weight: 600;
-  color: #fffaf0;
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 8px rgba(139, 94, 60, 0.2);
+  transition: background 0.3s, transform 0.1s;
 }
 
 button:hover {
-  background: linear-gradient(180deg, #b58458 0%, #9b6d41 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(139, 94, 60, 0.3);
+  background: #a87d4a;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* ========== Animación ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

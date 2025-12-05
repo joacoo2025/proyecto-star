@@ -1,104 +1,207 @@
-/* Estilo sencillo y funcional */
+/* ======== CONTENEDOR GENERAL ======== */
 .crud-container {
   max-width: 900px;
-  margin: 20px auto;
-  padding: 18px;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  background: #fff;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin: 40px auto;
+  padding: 30px 35px;
+  background: #fdf7f0;  /* crema claro */
+  border-radius: 18px;
+  border: 1px solid #e3d3c3;
+  box-shadow: 0px 0px 25px rgba(120, 90, 60, 0.15);
+  font-family: "Inter", sans-serif;
+  color: #5b4636; /* marrón suave */
+  animation: fadeIn 0.35s ease-out;
 }
 
-h2, h3 {
-  margin: 8px 0 16px 0;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* ======== TITULOS ======== */
+.crud-container h2,
+.crud-container h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #7a563a; /* marrón cálido */
+}
+
+/* ======== FORMULARIO ======== */
 .form {
-  display: grid;
-  gap: 12px;
+  margin-bottom: 30px;
 }
 
 .form-row {
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
 
-.form-row label {
-  font-weight: 600;
+label {
   margin-bottom: 6px;
   font-size: 0.95rem;
+  color: #8d6a4a;
 }
 
-.form-row input,
-.form-row textarea {
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.95rem;
+/* ======== INPUTS ======== */
+input,
+textarea {
+  background: #fffaf4;
+  border: 1px solid #d8c2ac;
+  padding: 11px 13px;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #5b4636;
+  transition: 0.25s ease;
 }
 
-.form-row textarea {
-  min-height: 70px;
+input::placeholder,
+textarea::placeholder {
+  color: #b09a87;
+}
+
+textarea {
   resize: vertical;
+  min-height: 80px;
 }
 
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #d79f55; /* acento miel */
+  box-shadow: 0 0 8px rgba(215, 159, 85, 0.35);
+}
+
+/* ======== ERRORES ======== */
+.error small {
+  color: #d44b4b;
+  font-size: 0.85rem;
+}
+
+/* ======== BOTONES ======== */
 .buttons {
+  margin-top: 15px;
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 12px;
 }
 
 button {
-  padding: 8px 12px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #c78a4b, #ad7034); /* marrón miel */
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  color: #fff;
   cursor: pointer;
-  background: #2563eb;
-  color: white;
   font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.25s ease;
 }
 
-button.secondary {
-  background: #6b7280;
+button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #d89c63, #c07f3c);
 }
 
-button.danger {
-  background: #dc2626;
+button:disabled {
+  background: #ccb9a8;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* Tabla */
+/* Botón secundario */
+.secondary {
+  background: #e2d3c2 !important;
+  color: #5b4636 !important;
+}
+
+.secondary:hover {
+  background: #d4c3b0 !important;
+}
+
+/* Botón peligro */
+.danger {
+  background: #c23535 !important;
+}
+
+.danger:hover {
+  background: #dd4a4a !important;
+}
+
+/* ======== TABLA ======== */
 .items-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 12px;
+  margin-top: 15px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.items-table th,
-.items-table td {
+.items-table thead {
+  background: #f2e2d0;
+}
+
+.items-table th {
+  padding: 12px;
+  font-weight: 600;
+  color: #6d4f33;
   text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #e6e6e6;
-  vertical-align: middle;
+  border-bottom: 1px solid #e4d2bd;
 }
 
-.items-table thead th {
-  font-size: 0.9rem;
-  color: #374151;
+.items-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f0e4d7;
+  color: #5b4636;
 }
 
-.actions button {
-  margin-right: 6px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 0.9rem;
+.items-table tr:hover {
+  background: #f5ece2;
 }
 
-/* Mensajes */
-.error small {
-  color: #b91c1c;
+/* Acciones en tabla */
+.actions {
+  display: flex;
+  gap: 8px;
 }
 
+/* ======== MENSAJE VACÍO ======== */
 .empty {
-  color: #6b7280;
-  padding: 8px 0;
+  color: #aa8a74;
+  text-align: center;
+  margin-top: 15px;
+}
+/* ======== SELECT DESTACADO ======== */
+#destacado {
+  background: #f5e9d4; /* crema claro */
+  border: 2px solid #c9a878; /* marrón suave */
+  color: #5a4633; /* marrón oscuro */
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#destacado:focus {
+  outline: none;
+  border-color: #b38750;
+  box-shadow: 0 0 8px rgba(179, 135, 80, 0.4);
+}
+
+/* Label del select destacado */
+label[for="destacado"] {
+  color: #8a6a47;
+  font-weight: 600;
+}
+
+/* Opciones del select */
+#destacado option[value="true"] {
+  background: #ffe9b3;  /* dorado suave para Sí */
+  color: #5f3c0d;
+  font-weight: 600;
+}
+
+#destacado option[value="false"] {
+  background: #f0e4d2; /* crema neutro para No */
+  color: #5a4633;
 }

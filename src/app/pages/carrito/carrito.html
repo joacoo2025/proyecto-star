@@ -36,8 +36,10 @@
               />
             </td>
 
-            <!-- Nombre y descripción -->
+            <!-- Nombre -->
             <td class="product-name">{{ item.producto.nombre }}</td>
+
+            <!-- Descripción -->
             <td class="product-description">
               {{ item.producto.descripcion }}
             </td>
@@ -64,7 +66,7 @@
                 class="qty-btn"
               >+</button>
 
-              
+            </td> <!-- 👈 ESTE cierre faltaba en tu código -->
 
             <!-- Subtotal -->
             <td class="product-subtotal">
@@ -74,7 +76,7 @@
             <!-- Acciones -->
             <td class="product-actions">
               <button
-                (click)="eliminarProducto(item.producto.id)"
+                (click)="eliminarProducto(item.id_detalle)"
                 aria-label="Quitar del carrito"
                 class="btn-remove-text"
               >
@@ -94,18 +96,16 @@
           Subtotal:
           <span>{{ calcularTotal() | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
-<br>
+
         <p class="fw-bold fs-5">
           Envío:
           <span>{{ envio | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
-<br>
+
         <p class="fw-bold fs-4">
           Total:
           <span>{{ (calcularTotal() + envio) | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
-
-       
 
         <button
           class="btn btn-primary btn-purchase"

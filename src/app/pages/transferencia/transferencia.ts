@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Carro } from '../../services/carro'; // ⬅️ IMPORTANTE
+import { Carro } from '../../services/carro';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transferencia',
@@ -10,18 +11,17 @@ import { Carro } from '../../services/carro'; // ⬅️ IMPORTANTE
 })
 export class Transferencia implements OnInit {
 
-  alias = 'miemprendimiento.mp';
-  cbu = '0000003100045678912345';
-  titular = 'David';
-  qr = 'assets/imagenes/qrtransferencia.png';
-  whatsapp = '+54 9 11 2345-6789';
-  gmail = 'miemprendimiento@gmail.com';
+  alias = 'joacoespinosa06';
+  cbu = '0000003100036142379203';
+  titular = 'Joaquin Espinosa';
+  qr = 'imagenes/QR.jpg';
+  whatsapp = '+54 299-596-1133';
+  gmail = 'joaquinespinosalan@gmail.com';
   subtotal: number = 0;
 
-  constructor(private carritoService: Carro) {}
+  constructor(private carritoService: Carro, private router: Router) {}
 
   ngOnInit(): void {
-    // Nos suscribimos al carrito para actualizar el subtotal en tiempo real
     this.carritoService.carrito$.subscribe(productos => {
       this.subtotal = productos.reduce(
         (total, item) => total + item.producto.precio * item.cantidad,
@@ -29,4 +29,9 @@ export class Transferencia implements OnInit {
       );
     });
   }
+
+  finalizar() {
+  this.router.navigate(['/pdf']);
 }
+}
+

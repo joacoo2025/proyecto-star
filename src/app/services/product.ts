@@ -7,85 +7,65 @@ import { Observable } from 'rxjs';
 })
 export class Product {
 
-  // URL base para todos los endpoints de productos.
-  // Backend tiene rutas como:
-  //   GET    /products
-  //   POST   /products
-  //   PUT    /products/:id
-  //   DELETE /products/:id
   private apiUrl = 'http://localhost/api_proyecto/public/products';
 
   constructor(private http: HttpClient) {}
 
   // ============================================================
-  // OBTENER TODOS LOS PRODUCTOS
-  // GET /products
+  // OBTENER TODOS LOS PRODUCTOS (GET)
   // ============================================================
   obtenerProductos(): Observable<any[]> {
-    // No requiere autenticación.
     return this.http.get<any[]>(this.apiUrl);
   }
 
   // ============================================================
-  // CREAR PRODUCTO (solo admin)
-  // POST /products
-  // Se envía FormData porque incluye imágenes.
+  // CREAR PRODUCTO (POST con JSON)
   // ============================================================
-  crearProducto(formData: FormData): Observable<any> {
-    return this.http.post(
-      this.apiUrl,
-      formData,
-      {
-        // Content-Type debe quedar vacío para que el navegador
-        // genere el multipart/form-data automáticamente.
-        headers: this.getAuthHeaders(false)
-      }
-    );
+  crearProducto(data: any): Observable<any> {
+    // Asegurar envío correcto de destacado (boolean → number)
+    if (data.destacado === true) data.destacado = 1;
+    if (data.destacado === false) data.destacado = 0;
+    if (!data.hasOwnProperty('destacado')) data.destacado = 0;
+
+    return this.http.post(this.apiUrl, data, {
+      headers: this.getAuthHeaders(true)
+    });
   }
 
   // ============================================================
-  // ACTUALIZAR PRODUCTO (solo admin)
-  // PUT /products/:id
-  // Como Angular no manda PUT con FormData correctamente,
-  // se usa técnica _method=PUT que el backend interpreta.
+  // ACTUALIZAR PRODUCTO (PUT con JSON)
   // ============================================================
-  actualizarProducto(id: number, formData: FormData): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/${id}?_method=PUT`,
-      formData,
-      {
-        headers: this.getAuthHeaders(false)
-      }
-    );
+  actualizarProducto(id: number, data: any): Observable<any> {
+
+    // Igual que en create: asegurar normalización
+    if (data.destacado === true) data.destacado = 1;
+    if (data.destacado === false) data.destacado = 0;
+    if (!data.hasOwnProperty('destacado')) data.destacado = 0;
+
+    return this.http.put(`${this.apiUrl}/${id}`, data, {
+      headers: this.getAuthHeaders(true)
+    });
   }
 
   // ============================================================
-  // ELIMINAR PRODUCTO (solo admin)
-  // DELETE /products/:id
+  // ELIMINAR PRODUCTO (DELETE)
   // ============================================================
   eliminarProducto(id: number): Observable<any> {
-    return this.http.delete(
-      `${this.apiUrl}/${id}`,
-      {
-        headers: this.getAuthHeaders()
-      }
-    );
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   // ============================================================
-  // HEADERS DE AUTENTICACIÓN
-  // Si json=true → se agrega Content-Type: application/json
-  // Si json=false → se omite para enviar FormData
+  // HEADERS
   // ============================================================
   private getAuthHeaders(json: boolean = true): HttpHeaders {
-    const token = (typeof localStorage !== 'undefined')
-      ? localStorage.getItem('token') || ''
-      : '';
+    const token = localStorage.getItem('token') || '';
 
-    // Siempre enviamos el token.
-    const headers: any = { Authorization: `Bearer ${token}` };
+    let headers: any = {
+      Authorization: `Bearer ${token}`
+    };
 
-    // Solo agregamos JSON cuando NO se envía FormData.
     if (json) {
       headers['Content-Type'] = 'application/json';
     }

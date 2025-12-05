@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { HttpClientModule } from '@angular/common/http';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-registrarse',
   standalone: true,
@@ -50,10 +50,24 @@ export class Registrarse {
       // Si el registro es exitoso:
       next: () => {
         // Alerta rápida; puede reemplazarse por un toast más elegante.
-        alert('Registro exitoso. Ahora puede iniciar sesión.');
+        Swal.fire({
+                        title: '¡Registro Exitoso!',
+                        icon: 'success',
+                        customClass: {
+                          popup: 'petshop-popup'
+                        },
+                        confirmButtonText: '¡Genial!',
+                        showConfirmButton: true,
+                        backdrop: `
+                          rgba(19, 15, 15, 0.29)
+                          url("https://i.imgur.com/J1pWJtO.png") 
+                          left top
+                          no-repeat
+                        `
+                      });
 
         // Redirige al usuario a la pantalla de login.
-        this.router.navigate(['/inicio-sesion']);
+        this.router.navigate(['/login']);
       },
 
       // Si ocurre un error en el backend o en la red:

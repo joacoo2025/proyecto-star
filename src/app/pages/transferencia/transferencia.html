@@ -11,7 +11,6 @@
     <img [src]="qr" alt="QR para transferencia" class="qr-img" />
   </div>
 
-  
   <p class="mensaje">
     Una vez realizada la transferencia, envía el comprobante por correo o WhatsApp.
     ¡Gracias por tu compra!
@@ -23,5 +22,8 @@
     <p><strong>Email:</strong> {{ gmail }}</p>
   </div>
 
+ <div class="text-center mt-4">
+  <button class="btn-finalizar" (click)="finalizar()">Finalizar y Generar PDF</button>
+</div>
 
 </div>

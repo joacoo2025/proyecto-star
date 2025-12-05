@@ -10,7 +10,8 @@ import { Registrarse } from './pages/registrarse/registrarse';
 import { Compra } from './pages/compra/compra';
 import { Transferencia } from './pages/transferencia/transferencia';
 import { Tienda } from './pages/tienda/tienda';
-import { CRUD } from './pages/crud/crud';
+import { crud } from './pages/crud/crud';
+import { PdfComponent } from './pages/pdf/pdf';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -24,10 +25,10 @@ export const routes: Routes = [
 
   { path: 'login', component: InicioSesion },
   { path: 'registro', component: Registrarse },
-{ path: 'crud', component: CRUD },
+{ path: 'crud', component: crud },
   { path: 'compra', component: Compra },
   { path: 'transferencia', component: Transferencia },
 { path: 'tienda', component: Tienda },
-  
+  { path: 'pdf', component: PdfComponent },
   { path: '**', redirectTo: 'home' }
 ];

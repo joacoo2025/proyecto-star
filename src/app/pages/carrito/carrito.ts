@@ -14,13 +14,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class Carrito implements OnInit {
 
-  // Ítems del carrito (frontend + backend si existiera)
-  productosEncarrito: { producto: Products; cantidad: number }[] = [];
+  productosEncarrito: { producto: Products; cantidad: number; id_detalle: number }[] = [];
 
-  // Costo de envío como en el secundario
   envio: number = 1500;
-
-  // Total acumulado (lo recalculamos al cargar datos o modificar cantidades)
   total: number = 0;
 
   constructor(
@@ -29,64 +25,75 @@ export class Carrito implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Igual que cargarCarrito del secundario
     this.carritoService.carrito$.subscribe((productos) => {
       this.productosEncarrito = productos || [];
       this.total = this.calcularTotal();
     });
   }
 
-  // ------- FUNCIONES ADAPTADAS DEL SEGUNDARIO -------- //
-
-  // Equivalente a "cambiarCantidad" sin cambiar tu función agregar / quitar
+  // ======================
+  //   AGREGAR CANTIDAD
+  // ======================
   agregarCantidad(index: number) {
-    this.productosEncarrito[index].cantidad++;
+    const item = this.productosEncarrito[index];
+    item.cantidad++;
     this.total = this.calcularTotal();
 
-    // Avisamos al servicio (simulando actualización backend)
     this.carritoService.actualizarCantidad(
-      this.productosEncarrito[index].producto.id!,
-      this.productosEncarrito[index].cantidad
+      item.id_detalle,
+      item.cantidad
     );
   }
 
+  // ======================
+  //   QUITAR CANTIDAD
+  // ======================
   quitarCantidad(index: number) {
-    if (this.productosEncarrito[index].cantidad > 1) {
-      this.productosEncarrito[index].cantidad--;
+    const item = this.productosEncarrito[index];
+
+    if (item.cantidad > 1) {
+      item.cantidad--;
       this.total = this.calcularTotal();
 
       this.carritoService.actualizarCantidad(
-        this.productosEncarrito[index].producto.id!,
-        this.productosEncarrito[index].cantidad
+        item.id_detalle,
+        item.cantidad
       );
     }
   }
 
-  // Equivalente a eliminar(idDetalleCarrito)
-  eliminarProducto(productoId: number) {
-    this.carritoService.eliminarCarrito(productoId);
+  // ======================
+  //   ELIMINAR PRODUCTO
+  // ======================
+  eliminarProducto(id_detalle: number) {
+    this.carritoService.eliminarCarrito(id_detalle);
 
-    // Quitamos del array
     this.productosEncarrito = this.productosEncarrito.filter(
-      (item) => item.producto.id !== productoId
+      (item) => item.id_detalle !== id_detalle
     );
 
     this.total = this.calcularTotal();
   }
 
-  // Vacía el carrito igual que el secundario
+  // ======================
+  //   VACIAR CARRITO
+  // ======================
   vaciarCarrito() {
     this.carritoService.vaciarCarrito();
     this.productosEncarrito = [];
     this.total = 0;
   }
 
-  // Ir al formulario de compra (equiv. irACompra)
+  // ======================
+  //   IR A COMPRA
+  // ======================
   irAformularioCompra() {
     this.router.navigate(['/compra']);
   }
 
-  // Calcula total igual que el secundario
+  // ======================
+  //   CALCULAR TOTAL
+  // ======================
   calcularTotal(): number {
     return this.productosEncarrito.reduce((acc, item) => {
       return acc + item.producto.precio * item.cantidad;

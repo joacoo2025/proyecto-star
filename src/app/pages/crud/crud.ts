@@ -3,138 +3,127 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Products } from '../../Modal/interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Product } from '../../services/product';
 
 @Component({
   selector: 'app-crud',
+  standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './crud.html',
-  styleUrl: './crud.css',
+  styleUrls: ['./crud.css'],
 })
-export class CRUD implements OnInit {
+export class crud implements OnInit {
 
   form: FormGroup;
   items: Products[] = [];
   editMode = false;
   editingId: number | null = null;
-  private nextId = 1;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private productService: Product
+  ) {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', Validators.maxLength(200)],
-      precio: [null, [Validators.min(0)]],
+      precio: [null, [Validators.required, Validators.min(0)]],
       imagen: [''],
       categoria: [''],
-      cantidad: [null]
+      cantidad: [0, [Validators.min(0)]],
+      destacado: [0]  // <<------ NUEVO
     });
   }
 
-  // ======================================================
-  // CARGAR DATOS GUARDADOS
-  // ======================================================
+  // =====================================
+  // Cargar productos desde API
+  // =====================================
   ngOnInit(): void {
-    const saved = localStorage.getItem('productos');
-    const savedId = localStorage.getItem('nextId');
-
-    if (saved) {
-      this.items = JSON.parse(saved);
-    }
-
-    if (savedId) {
-      this.nextId = Number(savedId);
-    }
+    this.cargarProductos();
   }
 
-  // ======================================================
-  // GUARDAR EN LOCALSTORAGE
-  // ======================================================
-  private saveToStorage() {
-    localStorage.setItem('productos', JSON.stringify(this.items));
-    localStorage.setItem('nextId', this.nextId.toString());
+  cargarProductos(): void {
+    this.productService.obtenerProductos().subscribe({
+      next: (data) => (this.items = data),
+      error: (e) => console.error('Error cargando productos', e)
+    });
   }
 
-  // ======================================================
-  // SUBMIT (crear o actualizar)
-  // ======================================================
+  // =====================================
+  // Crear o actualizar
+  // =====================================
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const value = this.form.value;
+    const data = {
+      nombre: this.form.value.nombre,
+      descripcion: this.form.value.descripcion,
+      precio: Number(this.form.value.precio),
+      imagen: this.form.value.imagen,
+      categoria: this.form.value.categoria,
+      cantidad: Number(this.form.value.cantidad),
+      destacado: this.form.value.destacado  // <<------ NUEVO
+    };
 
     if (this.editMode && this.editingId != null) {
-      // UPDATE
-      const idx = this.items.findIndex(i => i.id === this.editingId);
-      if (idx !== -1) {
-        this.items[idx] = {
-          id: this.editingId,
-          nombre: value.nombre,
-          descripcion: value.descripcion,
-          precio: value.precio != null ? +value.precio : 0,
-          imagen: value.imagen,
-          categoria: value.categoria,
-          cantidad: value.cantidad
-        };
-      }
-      this.cancelEdit();
+      // UPDATE API
+      this.productService.actualizarProducto(this.editingId, data).subscribe({
+        next: () => {
+          this.cargarProductos();
+          this.cancelEdit();
+        },
+        error: (e) => console.error('Error al actualizar', e)
+      });
+
     } else {
-      // CREATE
-      const newItem: Products = {
-        id: this.nextId++,
-        nombre: value.nombre,
-        descripcion: value.descripcion,
-        precio: value.precio,
-        imagen: value.imagen,
-        categoria: value.categoria,
-        cantidad: value.cantidad
-      };
-
-      this.items.push(newItem);
-      this.form.reset();
+      // CREATE API
+      this.productService.crearProducto(data).subscribe({
+        next: () => {
+          this.cargarProductos();
+          this.form.reset();
+        },
+        error: (e) => console.error('Error al crear', e)
+      });
     }
-
-    this.saveToStorage(); // <── GUARDAR CAMBIOS
   }
 
-  // ======================================================
-  // EDITAR
-  // ======================================================
+  // =====================================
+  // Editar
+  // =====================================
   edit(item: Products): void {
     this.editMode = true;
     this.editingId = item.id;
 
     this.form.patchValue({
       nombre: item.nombre,
-      descripcion: item.descripcion ?? '',
-      precio: item.precio ?? null,
-      imagen: item.imagen ?? '',
-      categoria: item.categoria ?? '',
-      cantidad: item.cantidad ?? null
+      descripcion: item.descripcion,
+      precio: item.precio,
+      imagen: item.imagen,
+      categoria: item.categoria,
+      cantidad: item.cantidad,
+      destacado: item.destacado
     });
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ======================================================
-  // ELIMINAR
-  // ======================================================
+  // =====================================
+  // Eliminar
+  // =====================================
   delete(item: Products): void {
     if (!confirm(`¿Eliminar "${item.nombre}"?`)) return;
 
-    this.items = this.items.filter(i => i.id !== item.id);
-
-    if (this.editingId === item.id) {
-      this.cancelEdit();
-    }
-
-    this.saveToStorage(); // <── GUARDAR CAMBIOS
+    this.productService.eliminarProducto(item.id).subscribe({
+      next: () => this.cargarProductos(),
+      error: (e) => console.error('Error al eliminar', e)
+    });
   }
 
-  // ======================================================
-  // CANCELAR EDICIÓN
-  // ======================================================
+  // =====================================
+  // Cancelar edición
+  // =====================================
   cancelEdit(): void {
     this.editMode = false;
     this.editingId = null;

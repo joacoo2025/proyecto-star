@@ -1,67 +1,132 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../services/product';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Carro } from '../../services/carro';
 import { Products } from '../../Modal/interface';
+import { Carro } from '../../services/carro';
 import Swal from 'sweetalert2';
 import { Favorito } from '../../services/favorito';
+import { Product } from '../../services/product';
+
 @Component({
   selector: 'app-tienda',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './tienda.html',
-  styleUrl: './tienda.css',
+  styleUrls: ['./tienda.css']
 })
 export class Tienda implements OnInit {
 
-  productos: any[] = [];
+  productos: Products[] = [];
+  productosFiltrados: Products[] = [];
+  destacados: any[] = [];
+  visibles: number = 3;
 
-  constructor(private productosService: Product, private carritoService: Carro, private favoritosService: Favorito) {}
+  busqueda: string = "";
+  categoriaSeleccionada: string = "";
+  precioMin: number | null = null;
+  precioMax: number | null = null;
 
-  agregar(producto: Products) {
-      this.carritoService.agregarCarrito(producto);
-      Swal.fire({
-      title: '¡Producto agregado! 🐾',
-      html: `El artículo <b>${producto.nombre}</b> fue añadido a tu carrito.`,
-      icon: 'success',
-      customClass: {
-        popup: 'petshop-popup'
+  indexCarrusel = 0;
+  categorias: string[] = [];
+
+  constructor(
+    public carritoService: Carro,
+    public favoritoService: Favorito,
+    private productService: Product
+  ) {}
+
+  isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
+  ngOnInit(): void {
+
+    this.productService.obtenerProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+
+        this.categorias = [
+          ...new Set(
+            this.productos
+              .map(p => p.categoria)
+              .filter((c): c is string => typeof c === 'string' && c.trim() !== '')
+          )
+        ];
+
+        this.productosFiltrados = [...this.productos];
+
+        // ✔ PRODUCTOS DESTACADOS
+        this.destacados = this.productos.filter(p => p.destacado === 1);
       },
-      confirmButtonText: '¡Genial!',
-      showConfirmButton: true,
-      backdrop: `
-        rgba(92, 64, 51, 0.4)
-        url("https://i.imgur.com/J1pWJtO.png") 
-        left top
-        no-repeat
-      `
-    });
-    }
-    agregarAfav(producto: Products) {
-        this.favoritosService.agregarFavorito(producto);
-        Swal.fire({
-        title: '¡Producto agregado! 🐾',
-        html: `El artículo <b>${producto.nombre}</b> fue añadido a favoritos.`,
-        icon: 'success',
-        customClass: {
-          popup: 'petshop-popup'
-        },
-        confirmButtonText: '¡Genial!',
-        showConfirmButton: true,
-        backdrop: `
-          rgba(92, 64, 51, 0.4)
-          url("https://i.imgur.com/J1pWJtO.png") 
-          left top
-          no-repeat
-        `
-      });
+      error: (err) => {
+        console.error('Error cargando productos:', err);
       }
-
-  ngOnInit() {
-    this.productosService.obtenerProductos().subscribe(res => {
-      this.productos = res;
     });
   }
-  
+
+  filtrar() {
+    this.productosFiltrados = this.productos.filter(p => {
+
+      const coincideBusqueda =
+        this.busqueda === "" ||
+        p.nombre.toLowerCase().includes(this.busqueda.toLowerCase()) ||
+        p.descripcion.toLowerCase().includes(this.busqueda.toLowerCase());
+
+      const coincideCategoria =
+        this.categoriaSeleccionada === "" ||
+        p.categoria === this.categoriaSeleccionada;
+
+      const coincidePrecioMin =
+        this.precioMin === null || p.precio >= this.precioMin;
+
+      const coincidePrecioMax =
+        this.precioMax === null || p.precio <= this.precioMax;
+
+      return coincideBusqueda && coincideCategoria && coincidePrecioMin && coincidePrecioMax;
+    });
+  }
+
+  agregar(producto: Products) {
+    this.carritoService.agregarCarrito(producto);
+    Swal.fire({
+      title: '¡Producto agregado!',
+      html: `El artículo <b>${producto.nombre}</b> fue añadido al Carrito.`,
+      icon: 'success',
+      confirmButtonText: '¡Genial!'
+    });
+  }
+
+  agregarFav(producto: Products) {
+    this.favoritoService.agregarFavorito(producto);
+    Swal.fire({
+      title: '¡Producto agregado!',
+      html: `El artículo <b>${producto.nombre}</b> fue añadido a favoritos.`,
+      icon: 'success',
+      confirmButtonText: '¡Genial!'
+    });
+  }
+
+  // ===============================
+  // ✔ CARRUSEL DESTACADOS MEJORADO
+  // ===============================
+
+  prev() {
+    if (this.destacados.length === 0) return;
+
+    if (this.indexCarrusel === 0) {
+      this.indexCarrusel = this.destacados.length - 1; // loop
+    } else {
+      this.indexCarrusel--;
+    }
+  }
+
+  next() {
+    if (this.destacados.length === 0) return;
+
+    if (this.indexCarrusel === this.destacados.length - 1) {
+      this.indexCarrusel = 0; // loop
+    } else {
+      this.indexCarrusel++;
+    }
+  }
 }

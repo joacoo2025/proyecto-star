@@ -16,7 +16,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "0,56 x 0,70 x 0,60 m",
   precio: 84600,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 2,
@@ -28,7 +28,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "0,70 x 0,85 x 0,70 m",
   precio: 123500,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 
 // CUCHAS FIBRA REFORZADA (4 productos distintos)
@@ -42,7 +42,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "0,58 x 0,76 x 0,60 m",
   precio: 56532,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 4,
@@ -54,7 +54,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "0,65 x 0,85 x 0,75 m",
   precio: 70240,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 5,
@@ -66,7 +66,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "0,85 x 1,05 x 0,90 m",
   precio: 106500,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 6,
@@ -79,7 +79,7 @@ export const PRODUCTOS_DATA: Products[] = [
   precio: 145737,
   cantidad: 1,
   oferta: true,
-  destacado:true,
+  destacado:1,
 },
 
 
@@ -94,7 +94,7 @@ export const PRODUCTOS_DATA: Products[] = [
   categoria: "Juguetes",
   precio: 9190,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 9,
@@ -106,7 +106,7 @@ export const PRODUCTOS_DATA: Products[] = [
   medidas: "80 cm",
   precio: 39990,
   cantidad: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 20,
@@ -118,7 +118,7 @@ export const PRODUCTOS_DATA: Products[] = [
   precio: 3250,
   cantidad: 1,
   talle: 1,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 21,
@@ -130,7 +130,7 @@ export const PRODUCTOS_DATA: Products[] = [
   precio: 4160,
   cantidad: 1,
   talle: 2,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 22,
@@ -142,7 +142,7 @@ export const PRODUCTOS_DATA: Products[] = [
   precio: 4800,
   cantidad: 1,
   talle: 3,
-  destacado:true,
+  destacado:1,
 },
 {
   id: 23,

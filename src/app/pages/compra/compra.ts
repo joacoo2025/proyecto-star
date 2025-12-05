@@ -1,66 +1,36 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
-import { jsPDF } from 'jspdf';
-import { Router } from '@angular/router';
-// 👉 Servicios del componente secundario
 import { Carro } from '../../services/carro';
-import { Compris } from '../../services/compris';
-import { HttpClientModule } from '@angular/common/http';
+import jsPDF from 'jspdf';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-compra',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './compra.html',
-  styleUrls: ['./compra.css']
+  styleUrl: './compra.css'
 })
 export class Compra implements OnInit {
 
-  // ---------------------------
-  // 📌 VARIABLES DEL COMPONENTE PRINCIPAL
-  // ---------------------------
   formularioCompra!: FormGroup;
   total!: number;
   envio = 1500;
-
   facturaGenerada = false;
   factura: any;
-
   mostrarModal = false;
   pdfSrc: SafeResourceUrl | undefined;
 
-  // ---------------------------
-  // 📌 VARIABLES DEL COMPONENTE SECUNDARIO (AGREGADAS)
-  // ---------------------------
-  productos: any[] = [];
-  datos = { direccion: '', telefono: '' };
-
-  subtotal = 0;
-  mensaje = '';
-  cargando = false;
-
-  // ---------------------------
-  // 📌 CONSTRUCTOR UNIFICADO
-  // ---------------------------
   constructor(
     private fb: FormBuilder,
-    private carritoLocal: Carro,     // tu servicio original
+    private carritoService: Carro,
     private sanitizer: DomSanitizer,
     private router: Router,
-
-    // servicios importados del componente secundario
-    private carritoService: Carro,
-    private compraService: Compris
   ) {}
 
-  // ---------------------------
-  // 📌 ngOnInit UNIFICADO
-  // ---------------------------
   ngOnInit(): void {
-
-    // 💠 Formulario reactivo original
     this.formularioCompra = this.fb.group({
       nombre: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
@@ -71,44 +41,42 @@ export class Compra implements OnInit {
       provincia: ['', [Validators.required]],
       metodoPago: ['', [Validators.required]],
     });
-
-    // 💠 Suscripción al carrito del componente secundario
-    this.carritoService.carrito$.subscribe(items => {
-      this.productos = items;
-      this.recalcularSecundario(); // actualiza subtotal y total del secundario
-    });
   }
 
-  // ---------------------------
-  // 📌 CÁLCULO SECUNDARIO DE TOTALES
-  // (sin reemplazar tu función calcularTotal())
-  // ---------------------------
-  recalcularSecundario() {
-    this.subtotal = this.productos.reduce((acc, p) => {
-      const precio = Number(p.precio_unitario) || 0;
-      const cantidad = Number(p.cantidad) || 1;
-      return acc + (precio * cantidad);
-    }, 0);
-
-    this.total = this.subtotal + this.envio;
+  generarNumeroOrden(): string {
+    const fecha = new Date();
+    const año = fecha.getFullYear();
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const random = Math.floor(Math.random() * 90000) + 10000;
+    return `ORD-${año}${mes}${dia}-${random}`;
   }
-
-  // ==================================================================================
-  // 📌 NO SE MODIFICA NINGUNA DE TUS FUNCIONES ORIGINALES — SOLO SE PEGAN TAL CUAL
-  // ==================================================================================
 
   calcularTotal(): number {
-    const subtotal = this.carritoLocal.obtenerTotal();
+    const subtotal = this.carritoService.obtenerTotal();
     this.total = subtotal + this.envio;
     return this.total;
   }
 
+  verificarMetodoPago() {
+    const metodo = this.formularioCompra.get('metodoPago')?.value;
+
+    if (metodo === 'transferencia') {
+      this.router.navigate(['/transferencia']);
+    }
+
+    if (metodo === 'efectivo') {
+      this.router.navigate(['/pdf']);
+    }
+  }
+
   emitirFactura(): void {
     const datosCliente = this.formularioCompra.value;
-    const productos = this.carritoLocal.obtenerProductos();
+    const productos = this.carritoService.obtenerProductos();
     const totalFinal = this.calcularTotal();
 
     this.factura = {
+      orden: this.generarNumeroOrden(),
       cliente: datosCliente,
       productos: productos,
       envio: this.envio,
@@ -121,13 +89,6 @@ export class Compra implements OnInit {
 
   finalizarCompra(): void {
     if (this.formularioCompra.valid) {
-      const metodo = this.formularioCompra.get('metodoPago')?.value;
-
-      if (metodo === 'transferencia') {
-        this.router.navigate(['/transferencia']);
-        return;
-      }
-
       this.emitirFactura();
       this.generarPDFModal();
     } else {
@@ -139,91 +100,82 @@ export class Compra implements OnInit {
     if (!this.factura) return;
 
     const doc = new jsPDF();
-    const marginLeft = 14;
-    let y = 20;
 
-    doc.setFontSize(18);
-    doc.text('Factura de compra', marginLeft, y);
-    y += 10;
-
-    doc.setFontSize(12);
-    doc.text(`Fecha: ${this.factura.fecha.toLocaleString()}`, marginLeft, y);
-    y += 10;
-
-    doc.setFontSize(14);
-    doc.text('Cliente', marginLeft, y);
-    doc.setFontSize(12);
-    y += 8;
-
-    const c = this.factura.cliente;
-    const datosCliente = [
-      `Nombre: ${c.nombre}`,
-      `Dirección: ${c.direccion}`,
-      `Correo: ${c.correo}`,
-      `Teléfono: ${c.telefono}`,
-      `Ciudad: ${c.ciudad}`,
-      `Provincia: ${c.provincia}`,
-      `Código Postal: ${c.codigopostal}`,
-    ];
-
-    datosCliente.forEach(linea => {
-      doc.text(linea, marginLeft + 6, y);
-      y += 8;
-    });
-
-    y += 5;
-    doc.setFontSize(14);
-    doc.text('Productos', marginLeft, y);
-    doc.setFontSize(12);
-    y += 8;
-
-    this.factura.productos.forEach((item: any, index: number) => {
-      const texto = `${index + 1}. ${item.producto.nombre}  |  Cantidad: ${item.cantidad}  |  Precio: $${item.producto.precio.toFixed(2)}  |  Subtotal: $${(item.producto.precio * item.cantidad).toFixed(2)}`;
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-
-      const lineas = doc.splitTextToSize(texto, 180);
-      doc.text(lineas, marginLeft + 6, y);
-      y += lineas.length * 8;
-    });
-
-    y += 10;
-    if (y > 270) {
-      doc.addPage();
-      y = 20;
+    // --- LOGO ---
+    const logoPath = 'assets/logo.png';
+    try {
+      doc.addImage(logoPath, 'PNG', 70, 5, 70, 30);
+    } catch (e) {
+      console.warn('No se pudo cargar el logo, revisá la ruta.');
     }
 
-    doc.text(`Costo de envío: $${this.factura.envio.toFixed(2)}`, marginLeft, y);
-    y += 8;
-    doc.text(`Total a pagar: $${this.factura.total.toFixed(2)}`, marginLeft, y);
+    doc.setFontSize(18);
+    doc.text('Factura de compra', 14, 50);
+
+    doc.setFontSize(14);
+    doc.text(`Orden de Compra: ${this.factura.orden}`, 14, 60);
+    doc.setFontSize(12);
+    doc.text(`Fecha: ${this.factura.fecha.toLocaleString()}`, 14, 68);
+
+    doc.text('Cliente', 14, 78);
+    const c = this.factura.cliente;
+
+    doc.text(`Nombre: ${c.nombre}`, 20, 88);
+    doc.text(`Dirección: ${c.direccion}`, 20, 96);
+    doc.text(`Correo: ${c.correo}`, 20, 104);
+    doc.text(`Teléfono: ${c.telefono}`, 20, 112);
+    doc.text(`Ciudad: ${c.ciudad}`, 20, 120);
+    doc.text(`Provincia: ${c.provincia}`, 20, 128);
+    doc.text(`Código Postal: ${c.codigopostal}`, 20, 136);
+
+    let y = 150;
+    doc.setFontSize(14);
+    doc.text('Productos', 14, y);
+
+    doc.setFontSize(12);
+    this.factura.productos.forEach((item: any, index: number) => {
+      y += 10;
+      doc.text(
+        `${index + 1}. ${item.producto.nombre} | Cant: ${item.cantidad} | $${item.producto.precio.toFixed(2)} | Subtotal: $${(item.producto.precio * item.cantidad).toFixed(2)}`,
+        20,
+        y,
+        { maxWidth: 170 }
+      );
+    });
+
+    y += 10;
+    doc.text(`Costo de envío: $${this.factura.envio.toFixed(2)}`, 14, y);
+
+    y += 10;
+    doc.text(`Total a pagar: $${this.factura.total.toFixed(2)}`, 14, y);
 
     const pdfBlob = doc.output('blob');
-    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(pdfBlob));
+    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(
+      URL.createObjectURL(pdfBlob)
+    );
     this.mostrarModal = true;
   }
 
   cerrarModal(): void {
     this.mostrarModal = false;
-
     if (this.pdfSrc) {
-      URL.revokeObjectURL((this.pdfSrc as any).changingThisBreaksApplicationSecurity);
+      URL.revokeObjectURL(
+        (this.pdfSrc as any).changingThisBreaksApplicationSecurity
+      );
       this.pdfSrc = undefined;
     }
   }
 
   imprimirPDF(): void {
-    const iframe: HTMLIFrameElement | null = document.getElementById('pdfFrame') as HTMLIFrameElement;
-    if (iframe && iframe.contentWindow) {
+    const iframe: HTMLIFrameElement | null =
+      document.getElementById('pdfFrame') as HTMLIFrameElement;
+
+    if (iframe?.contentWindow) {
       iframe.contentWindow.focus();
       iframe.contentWindow.print();
     }
   }
 
-  // ---------------------------
-  // 📌 ICONOS (tu arreglo original)
-  // ---------------------------
   paymentMethods = [
     { name: '', icon: 'imagenes/visa.webp' },
     { name: '', icon: 'imagenes/master.webp' },
@@ -231,4 +183,3 @@ export class Compra implements OnInit {
     { name: '', icon: 'imagenes/nx.webp' },
   ];
 }
-

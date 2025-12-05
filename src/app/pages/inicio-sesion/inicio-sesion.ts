@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { HttpClientModule } from '@angular/common/http';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-inicio-sesion',
   standalone: true,
@@ -41,10 +41,24 @@ export class InicioSesion {
 
       next: (res) => {
         this.error = '';
-        alert('Inicio de sesión exitoso');
+        Swal.fire({
+                title: '¡Inicio de Sesion Exitoso!',
+                icon: 'success',
+                customClass: {
+                  popup: 'petshop-popup'
+                },
+                confirmButtonText: '¡Genial!',
+                showConfirmButton: true,
+                backdrop: `
+                  rgba(19, 15, 15, 0.29)
+                  url("https://i.imgur.com/J1pWJtO.png") 
+                  left top
+                  no-repeat
+                `
+              });
 
         // Redirigir
-        this.router.navigate(['/productos']);
+        this.router.navigate(['/tienda']);
       },
 
       error: (err) => {

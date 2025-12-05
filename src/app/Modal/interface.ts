@@ -6,9 +6,9 @@ export interface Products {
   categoria: string;
   precio: number;
   oferta?: boolean;
-  destacado?: boolean;
+  destacado?: number;
   precioAnterior?: number;
-  cantidad: number;
+  cantidad?: number;
   talle?: number;
   talles?:string;
   codigo?: string;

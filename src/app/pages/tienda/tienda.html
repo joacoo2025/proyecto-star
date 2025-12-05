@@ -1,28 +1,92 @@
-<div class="container mt-4 petshop-bg">
-  <h2 class="petshop-title">Tienda</h2>
+<div class="tienda-container">
+<!-- ============================
+     CARRUSEL DESTACADOS (3 cartas)
+     ============================ -->
+<div class="destacados-wrapper" *ngIf="destacados.length > 0">
 
-  <div class="row">
-    <div class="col-md-3" *ngFor="let producto of productos">
-      <div class="card petshop-card mb-3">
+  <h2 class="titulo-destacados">DESTACADOS</h2>
 
-        <!-- Ícono de favoritos -->
-<button class="fav-btn" (click)="agregarAfav(producto)">
-  <span class="heart">❤</span>
-</button>
+  <div class="carrusel-container">
 
-        <img [src]="'http://localhost/tu_api/uploads/'+producto.imagen" class="card-img-top petshop-img">
+    <!-- Botón IZQ -->
+    <button class="carrusel-btn left" (click)="prev()">&#10094;</button>
 
-        <div class="card-body">
-          <h5 class="card-title petshop-card-title">{{ producto.nombre }}</h5>
-          <p class="petshop-description">{{ producto.descripcion }}</p>
-          <p class="petshop-price"><b>${{ producto.precio }}</b></p>
+    <!-- VENTANA -->
+    <div class="carrusel-ventana">
+      <div class="carrusel-track"
+           [style.transform]="'translateX(-' + indexCarrusel * (100 / visibles) + '%)'">
 
-          <!-- Botón agregar al carrito -->
-          <button class="btn-cart" (click)="agregar(producto)">
-            Agregar al carrito
-          </button>
+        <div class="carrusel-card" *ngFor="let p of destacados">
+
+          <img [src]="p.imagen" alt="{{ p.nombre }}" class="carrusel-img"/>
+          <h3>{{ p.nombre }}</h3>
+          <p class="precio">${{ p.precio }}</p>
+
+          <div class="btns-card">
+            <button class="btn-add" (click)="agregar(p)">Agregar</button>
+            <button class="btn-fav" (click)="agregarFav(p)">❤</button>
+          </div>
+
         </div>
+
       </div>
+    </div>
+
+    <!-- Botón DER -->
+    <button class="carrusel-btn right" (click)="next()">&#10095;</button>
+
+  </div>
+
+</div>
+
+<br>
+  <h2 class="titulo-destacados">PRODUCTOS</h2> 
+
+  <div class="filtros-container">
+
+  <!-- Barra de búsqueda -->
+  <input 
+    type="text" 
+    class="input-busqueda" 
+    placeholder="Buscar productos..." 
+    [(ngModel)]="busqueda"
+    (input)="filtrar()"
+  />
+
+  <!-- Filtro por categoría -->
+  <select class="select-filtro" [(ngModel)]="categoriaSeleccionada" (change)="filtrar()">
+    <option value="">Todas las categorías</option>
+    <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+  </select>
+
+  <!-- Filtro por precio -->
+  <input type="number" class="input-precio" placeholder="Precio mínimo" [(ngModel)]="precioMin" (input)="filtrar()">
+  <input type="number" class="input-precio" placeholder="Precio máximo" [(ngModel)]="precioMax" (input)="filtrar()">
+
+</div>
+
+  <div class="grid">
+  <div class="card" *ngFor="let p of productosFiltrados">
+
+      <img *ngIf="p.imagen" [src]="p.imagen" class="card-img" alt="{{ p.nombre }}" />
+
+      <button class="btn fav-btn" (click)="agregarFav(p)" title="Favorito">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 17.503 15.625" fill="#ff5e5e">
+          <path d="M8.752,15.625h0L1.383,8.162a4.824,4.824,0,0,1,0-6.762,4.679,4.679,0,0,1,6.674,0l.694.7.694-.7a4.678,4.678,0,0,1,6.675,0,4.825,4.825,0,0,1,0,6.762L8.752,15.624Z"></path>
+        </svg>
+      </button>
+
+      <div class="card-body">
+        <h3>{{ p.nombre }}</h3>
+        <p class="descripcion">{{ p.descripcion }}</p>
+
+        <p class="precio">
+          $ {{ p.precio | number:'1.2-2' }}
+        </p>
+
+        <button class="btn-comprar" (click)="agregar(p)">Agregar al carrito</button>
+      </div>
+
     </div>
   </div>
 </div>
